@@ -10,9 +10,9 @@
 #include <tf/tf.h>
 ros::Publisher attitude_pub;
 
-/*****************************************************************************************
+/******************************************************************************
 encodersCallback: generate a trasnform from the encoder data
-*****************************************************************************************/
+******************************************************************************/
 void encodersCallback(const geometry_msgs::Vector3StampedConstPtr& msg){
     static tf::TransformBroadcaster br;
     tf::Transform transform;
@@ -21,9 +21,9 @@ void encodersCallback(const geometry_msgs::Vector3StampedConstPtr& msg){
     br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "testbed"));
 }
 
-/*****************************************************************************************
+/******************************************************************************
 imuCallback: generate a trasnform from the imu data
-*****************************************************************************************/
+******************************************************************************/
 void imuCallback(const sensor_msgs::Imu& msg){
     static tf::TransformBroadcaster br;
     tf::Transform transform;
@@ -37,15 +37,15 @@ void imuCallback(const sensor_msgs::Imu& msg){
 //    attitude_pub.publish(attitude_msg);
 }
 
-/*****************************************************************************************
+/******************************************************************************
 main: Run main function
-*****************************************************************************************/
+******************************************************************************/
 int main(int argc, char** argv){
     ros::init(argc, argv, "testbed_tf_basic");
 
     ros::NodeHandle node;
-    ros::Subscriber sub_enc = node.subscribe("testbed/sensors/encoders", 10, &encodersCallback);
-    ros::Subscriber sub_imu = node.subscribe("testbed/sensors/imu", 10, &imuCallback);
+    ros::Subscriber sub_enc = node.subscribe("testbed/sensors/row/encoders", 10, &encodersCallback);
+    ros::Subscriber sub_imu = node.subscribe("testbed/sensors/row/imu", 10, &imuCallback);
 //    attitude_pub = node.advertise <geometry_msgs::Vector3Stamped>("testbed/sensors/attitude", 1000);
 
     ros::spin();

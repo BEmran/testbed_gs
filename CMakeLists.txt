@@ -26,6 +26,11 @@ generate_messages(
   geometry_msgs
 )
 
+## Declare a C++ library
+add_library(${PROJECT_NAME}
+  include/${PROJECT_NAME}/groundstation.cpp
+)
+
 ## Declare a catkin package
 catkin_package(
   INCLUDE_DIRS include
@@ -33,12 +38,14 @@ catkin_package(
 )
 
 ## Specify additional locations of header files
-include_directories(include
+include_directories(
+  include
+  include/lib
   ${catkin_INCLUDE_DIRS}
 )
 
 add_executable(ground_station src/ground_station.cpp)
-target_link_libraries(ground_station  ${catkin_LIBRARIES})
+target_link_libraries(ground_station  ${catkin_LIBRARIES} ${PROJECT_NAME})
 add_dependencies(ground_station testbed_gs_gencpp)
 
 add_executable(testbed_tf_basic src/testbed_tf_basic.cpp)
@@ -52,3 +59,9 @@ target_link_libraries(testbed_tf_encoder  ${catkin_LIBRARIES})
 
 add_executable(du_cmd src/du_cmd.cpp)
 target_link_libraries(du_cmd  ${catkin_LIBRARIES})
+
+add_executable(du_cmd_sin src/du_cmd_sin.cpp)
+target_link_libraries(du_cmd_sin  ${catkin_LIBRARIES})
+
+add_executable(ang_cmd src/ang_cmd.cpp)
+target_link_libraries(ang_cmd  ${catkin_LIBRARIES})

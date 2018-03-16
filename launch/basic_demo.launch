@@ -1,0 +1,17 @@
+<launch>
+    <!-- Load Ground Station Parameter -->
+    <rosparam command="load" file="$(find testbed_gs)/parm/ground_station_parameter.yaml" />
+
+    <!-- Ground Station Node -->
+    <node pkg="testbed_gs" type="ground_station" name="ground_station" output="screen"/>    
+
+    <!-- TF broadcaster Node -->
+    <node pkg="testbed_gs" type="testbed_tf_basic" name="testbed_tf_basic"/>
+
+    <!-- Rviz Node -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find testbed_gs)/rviz/testbed.rviz"/>
+    
+    <!-- Load Parameter -->
+    <rosparam command="load" file="$(find testbed_navio)/parm/control_parameter.yaml" />
+
+</launch>

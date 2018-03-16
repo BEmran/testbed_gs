@@ -1,0 +1,15 @@
+testbed:
+  du_command:
+    thrust: [-0.0, +2.5] 
+    roll:   [-0.5, +0.5]
+    pitch:  [-0.5, +0.5]
+    yaw:    [-0.4, +0.4]
+  angle_command:
+    roll:   [-0.25, +0.25]
+    pitch:  [-0.25, +0.25]
+    yaw:    [-7.00, +7.00]
+
+
+
+
+
