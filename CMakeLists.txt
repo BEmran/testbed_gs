@@ -50,18 +50,3 @@ add_dependencies(ground_station testbed_gs_gencpp)
 
 add_executable(testbed_tf_basic src/testbed_tf_basic.cpp)
 target_link_libraries(testbed_tf_basic  ${catkin_LIBRARIES})
-
-add_executable(testbed_tf_6dof src/testbed_tf_6dof.cpp)
-target_link_libraries(testbed_tf_6dof  ${catkin_LIBRARIES})
-
-add_executable(testbed_tf_encoder src/testbed_tf_encoder.cpp)
-target_link_libraries(testbed_tf_encoder  ${catkin_LIBRARIES})
-
-add_executable(du_cmd src/du_cmd.cpp)
-target_link_libraries(du_cmd  ${catkin_LIBRARIES})
-
-add_executable(du_cmd_sin src/du_cmd_sin.cpp)
-target_link_libraries(du_cmd_sin  ${catkin_LIBRARIES})
-
-add_executable(ang_cmd src/ang_cmd.cpp)
-target_link_libraries(ang_cmd  ${catkin_LIBRARIES})

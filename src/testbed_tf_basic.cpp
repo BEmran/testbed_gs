@@ -8,16 +8,25 @@
 #include <geometry_msgs/Vector3Stamped.h>
 #include <sensor_msgs/Imu.h>
 #include <tf/tf.h>
+#include <math.h>
+
 ros::Publisher attitude_pub;
+int _enc_dir[3];
 
 /******************************************************************************
 encodersCallback: generate a trasnform from the encoder data
 ******************************************************************************/
 void encodersCallback(const geometry_msgs::Vector3StampedConstPtr& msg){
     static tf::TransformBroadcaster br;
-    tf::Transform transform;
+    tf::Transform transform, transform_ned;
     transform.setOrigin( tf::Vector3(0.0, 0.0, 1.0) );
-    transform.setRotation(tf::createQuaternionFromRPY(msg->vector.x, msg->vector.y, msg->vector.z));
+    tf::Quaternion quat_nwu2ned = tf::createQuaternionFromRPY(M_1_PI, 0.0, 0.0);
+    tf::Quaternion quat_encoderes = tf::createQuaternionFromRPY(
+          msg->vector.x * _enc_dir[0],
+          msg->vector.y * _enc_dir[1],
+          msg->vector.z * _enc_dir[2]);
+    transform.setRotation(quat_encoderes * quat_nwu2ned);
+
     br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "testbed"));
 }
 
@@ -48,6 +57,27 @@ int main(int argc, char** argv){
     ros::Subscriber sub_imu = node.subscribe("testbed/sensors/row/imu", 10, &imuCallback);
 //    attitude_pub = node.advertise <geometry_msgs::Vector3Stamped>("testbed/sensors/attitude", 1000);
 
+    // Get encoderes direction --------------------------------------------------------------------
+    std::vector<double> enc_dir;
+    if (node.getParam("testbed/encoders_direction/roll", enc_dir)){
+        _enc_dir[0] = enc_dir[0];
+    }
+    else {
+        _enc_dir[0] = 1;
+    }
+    if (node.getParam("testbed/encoders_direction/pitch", enc_dir)){
+        _enc_dir[1] = enc_dir[0];
+    }
+    else {
+        _enc_dir[1] = 1;
+    }
+    if (node.getParam("testbed/encoders_direction/yaw", enc_dir)){
+        _enc_dir[2] = enc_dir[0];
+    }
+    else {
+        _enc_dir[2] = 1;
+    }
+
     ros::spin();
     return 0;
-};
+}
