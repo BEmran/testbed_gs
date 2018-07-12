@@ -1,4 +1,4 @@
-testbed:
+ground_station:
   du_command:
     thrust: [-0.0, +2.5] 
     roll:   [-0.5, +0.5]
@@ -8,7 +8,3 @@ testbed:
     roll:   [-0.25, +0.25]
     pitch:  [-0.25, +0.25]
     yaw:    [-7.00, +7.00]
-  encoders_direction:
-    roll:   -1
-    pitch:  +1
-    yaw:    -1

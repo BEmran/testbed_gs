@@ -26,7 +26,7 @@ generate_messages(
   geometry_msgs
 )
 
-## Declare a C++ library
+# Declare a C++ library
 add_library(${PROJECT_NAME}
   include/${PROJECT_NAME}/groundstation.cpp
 )
@@ -34,19 +34,19 @@ add_library(${PROJECT_NAME}
 ## Declare a catkin package
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS  roscpp rospy tf std_msgs geometry_msgs message_generation
+  CATKIN_DEPENDS roscpp rospy tf std_msgs geometry_msgs message_runtime
 )
 
 ## Specify additional locations of header files
 include_directories(
   include
-  include/lib
+  #include/lib
   ${catkin_INCLUDE_DIRS}
 )
 
 add_executable(ground_station src/ground_station.cpp)
 target_link_libraries(ground_station  ${catkin_LIBRARIES} ${PROJECT_NAME})
-add_dependencies(ground_station testbed_gs_gencpp)
+add_dependencies(ground_station ${PROJECT_NAME}_generate_messages_cpp)
 
 add_executable(testbed_tf_basic src/testbed_tf_basic.cpp)
-target_link_libraries(testbed_tf_basic  ${catkin_LIBRARIES})
+target_link_libraries(testbed_tf_basic ${catkin_LIBRARIES})
